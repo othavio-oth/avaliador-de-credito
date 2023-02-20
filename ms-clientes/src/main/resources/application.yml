@@ -1,10 +1,10 @@
 spring:
   application:
     name: msclientes
-    
+
 server:
   port: 0
-  
+
 eureka:
   client:
     service-url:

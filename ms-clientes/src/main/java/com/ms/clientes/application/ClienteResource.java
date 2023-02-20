@@ -33,7 +33,7 @@ private final ClienteService service;
 	}
 	
 	@PostMapping
-	public ResponseEntity save(@RequestBody ClienteSaveRequest request) {
+	public ResponseEntity<URI> save(@RequestBody ClienteSaveRequest request) {
 		Cliente cliente = request.toModel();
 		service.save(cliente);
 		URI headerLocation = ServletUriComponentsBuilder

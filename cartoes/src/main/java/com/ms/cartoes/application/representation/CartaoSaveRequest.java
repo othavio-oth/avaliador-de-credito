@@ -9,12 +9,12 @@ import lombok.Data;
 
 @Data
 public class CartaoSaveRequest {
-	
+
 	private String nome;
 	private Bandeira bandeira;
 	private BigDecimal renda;
 	private BigDecimal limite;
-	
+
 	public Cartao toModel() {
 		return new Cartao(nome, bandeira, renda, limite);
 	}

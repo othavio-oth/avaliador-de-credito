@@ -22,36 +22,31 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("cartoes")
 @RequiredArgsConstructor
 public class CartoesResource {
-	
+
 	private final CartaoService cartaoService;
 	private final ClienteCartaoService clienteCartaoService;
-	
-	@GetMapping
-	public String status() { 
-		return "ok";
-	}
-	
+
 	@PostMapping
 	public ResponseEntity<Cartao> saveCartao(@RequestBody CartaoSaveRequest cartaoRequest) {
 		Cartao cartao = cartaoRequest.toModel();
-		cartaoService.save(cartao); 
+		cartaoService.save(cartao);
 		return ResponseEntity.ok(cartao);
 	}
-	
+
 	@GetMapping(params = "renda")
-	public ResponseEntity<List<Cartao>> getCartoesPorRenda(@RequestParam Long renda){
-		List<Cartao> list= cartaoService.getCartoesRendaMenorIgual(renda);
+	public ResponseEntity<List<Cartao>> getCartoesPorRenda(@RequestParam Long renda) {
+		List<Cartao> list = cartaoService.getCartoesRendaMenorIgual(renda);
 		return ResponseEntity.ok(list);
 	}
-	
+
 	@GetMapping(params = "cpf")
-	public ResponseEntity<List<CartoesPorClienteResponse>> getCartoesByCliente(@RequestParam String cpf){
+	public ResponseEntity<List<CartoesPorClienteResponse>> getCartoesByCliente(@RequestParam String cpf) {
 		List<CataoCliente> list = clienteCartaoService.listCartoesByCpf(cpf);
 		List<CartoesPorClienteResponse> cartoesPorClienteResponses = list
 				.stream() // Abre métodos lambda
 				.map(CartoesPorClienteResponse::fromModel) // Faz a conversão de todos os itens
 				.collect(Collectors.toList()); // Adiciona os intens a uma lista
-		
+
 		return ResponseEntity.ok(cartoesPorClienteResponses);
 	}
 }

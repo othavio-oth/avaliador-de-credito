@@ -1,4 +1,4 @@
-package com.ms.avaliador.clients;
+package com.ms.avaliador.infra.clients;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +9,8 @@ import com.ms.avaliador.domain.DadosCliente;
 
 @FeignClient(value = "msclientes", path = "/clientes")
 public interface ClienteResourceClient {
-	
+
 	@GetMapping(params = "cpf")
-	 ResponseEntity<DadosCliente> dadosCliente(@RequestParam("cpf") String cpf);
-	
-	
+	ResponseEntity<DadosCliente> dadosCliente(@RequestParam("cpf") String cpf);
 
 }
