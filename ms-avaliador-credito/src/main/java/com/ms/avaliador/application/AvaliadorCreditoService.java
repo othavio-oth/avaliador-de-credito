@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 
 import com.ms.avaliador.application.exception.DadosClienteNotFoundException;
 import com.ms.avaliador.application.exception.ErroComunicacaoMicroservicesException;
-import com.ms.avaliador.clients.CartaoResourceClient;
-import com.ms.avaliador.clients.ClienteResourceClient;
 import com.ms.avaliador.domain.Cartao;
 import com.ms.avaliador.domain.CartaoAprovado;
 import com.ms.avaliador.domain.CartaoCliente;
 import com.ms.avaliador.domain.DadosCliente;
 import com.ms.avaliador.domain.RetornoAvaliacaoCliente;
 import com.ms.avaliador.domain.SituacaoCliente;
+import com.ms.avaliador.infra.clients.CartaoResourceClient;
+import com.ms.avaliador.infra.clients.ClienteResourceClient;
 
 import feign.FeignException.FeignClientException;
 import lombok.RequiredArgsConstructor;
@@ -49,29 +49,28 @@ public class AvaliadorCreditoService {
 		}
 
 	}
-	
-	
-	public RetornoAvaliacaoCliente realizarAvaliacao(String cpf, Long renda) 
-			throws DadosClienteNotFoundException, 	ErroComunicacaoMicroservicesException {
-		
+
+	public RetornoAvaliacaoCliente realizarAvaliacao(String cpf, Long renda)
+			throws DadosClienteNotFoundException, ErroComunicacaoMicroservicesException {
+
 		try {
 			ResponseEntity<DadosCliente> dadosClienteResponse = resourceClient.dadosCliente(cpf);
-			ResponseEntity<List<Cartao>> cartoesResponse = 	cartaoResource.getCartoesPorRenda(renda);
-			
+			ResponseEntity<List<Cartao>> cartoesResponse = cartaoResource.getCartoesPorRenda(renda);
+
 			List<Cartao> cartoes = cartoesResponse.getBody();
-			List<CartaoAprovado> listCartoesAprovados = cartoes.stream().map(cartao->{
-						BigDecimal limiteBasico = cartao.getLimiteBasico();
-						BigDecimal idadeBd = BigDecimal.valueOf(dadosClienteResponse.getBody().getIdade());
-						BigDecimal fator = idadeBd.divide(BigDecimal.TEN);
-						BigDecimal limiteAprovado = fator.multiply(limiteBasico);
-						
-						CartaoAprovado aprovado = new CartaoAprovado();
-						aprovado.setCartao(cartao.getNome());
-						aprovado.setBandeira(cartao.getBandeira());
-						aprovado.setLimiteAprovado(limiteAprovado);
-						return aprovado;
-					}).collect(Collectors.toList());
-			
+			List<CartaoAprovado> listCartoesAprovados = cartoes.stream().map(cartao -> {
+				BigDecimal limiteBasico = cartao.getLimiteBasico();
+				BigDecimal idadeBd = BigDecimal.valueOf(dadosClienteResponse.getBody().getIdade());
+				BigDecimal fator = idadeBd.divide(BigDecimal.TEN);
+				BigDecimal limiteAprovado = fator.multiply(limiteBasico);
+
+				CartaoAprovado aprovado = new CartaoAprovado();
+				aprovado.setCartao(cartao.getNome());
+				aprovado.setBandeira(cartao.getBandeira());
+				aprovado.setLimiteAprovado(limiteAprovado);
+				return aprovado;
+			}).collect(Collectors.toList());
+
 			return new RetornoAvaliacaoCliente(listCartoesAprovados);
 		} catch (FeignClientException e) {
 
@@ -83,7 +82,7 @@ public class AvaliadorCreditoService {
 			throw new ErroComunicacaoMicroservicesException(e.getMessage(), status);
 
 		}
-		
+
 	}
 
 }

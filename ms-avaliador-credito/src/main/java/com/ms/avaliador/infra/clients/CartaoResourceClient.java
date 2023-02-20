@@ -1,4 +1,4 @@
-package com.ms.avaliador.clients;
+package com.ms.avaliador.infra.clients;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import com.ms.avaliador.domain.CartaoCliente;
 
 @FeignClient(value = "mscartoes", path = "/cartoes")
 public interface CartaoResourceClient {
-	
+
 	@GetMapping(params = "cpf")
 	public ResponseEntity<List<CartaoCliente>> getCartoesByCliente(@RequestParam String cpf);
-	
+
 	@GetMapping(params = "renda")
 	public ResponseEntity<List<Cartao>> getCartoesPorRenda(@RequestParam Long renda);
 
