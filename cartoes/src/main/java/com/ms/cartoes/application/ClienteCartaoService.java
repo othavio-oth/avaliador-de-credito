@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ms.cartoes.domain.CataoCliente;
+import com.ms.cartoes.domain.ClienteCartao;
 import com.ms.cartoes.infra.repository.ClienteCartaoRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -14,8 +14,8 @@ import lombok.RequiredArgsConstructor;
 public class ClienteCartaoService {
 
 	private final ClienteCartaoRepository repository;
-	
-	 List<CataoCliente> listCartoesByCpf(String cpf){
+
+	List<ClienteCartao> listCartoesByCpf(String cpf) {
 		return repository.findByCpf(cpf);
 	}
 }

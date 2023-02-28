@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ms.cartoes.application.representation.CartaoSaveRequest;
 import com.ms.cartoes.application.representation.CartoesPorClienteResponse;
 import com.ms.cartoes.domain.Cartao;
-import com.ms.cartoes.domain.CataoCliente;
+import com.ms.cartoes.domain.ClienteCartao;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,7 +41,7 @@ public class CartoesResource {
 
 	@GetMapping(params = "cpf")
 	public ResponseEntity<List<CartoesPorClienteResponse>> getCartoesByCliente(@RequestParam String cpf) {
-		List<CataoCliente> list = clienteCartaoService.listCartoesByCpf(cpf);
+		List<ClienteCartao> list = clienteCartaoService.listCartoesByCpf(cpf);
 		List<CartoesPorClienteResponse> cartoesPorClienteResponses = list
 				.stream() // Abre métodos lambda
 				.map(CartoesPorClienteResponse::fromModel) // Faz a conversão de todos os itens

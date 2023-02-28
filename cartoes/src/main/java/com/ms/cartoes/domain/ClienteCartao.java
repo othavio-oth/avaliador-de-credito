@@ -9,17 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @NoArgsConstructor
-public class CataoCliente {
+public class ClienteCartao {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private  String cpf;
+	private String cpf;
 	@ManyToOne
 	@JoinColumn(name = "id_cartao")
 	private Cartao cartao;

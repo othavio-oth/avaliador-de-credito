@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ms.cartoes.domain.CataoCliente;
+import com.ms.cartoes.domain.ClienteCartao;
 
-public interface ClienteCartaoRepository extends JpaRepository<CataoCliente, Long> {
-	
-	List<CataoCliente> findByCpf(String cpf);
+public interface ClienteCartaoRepository extends JpaRepository<ClienteCartao, Long> {
+
+	List<ClienteCartao> findByCpf(String cpf);
 
 }
