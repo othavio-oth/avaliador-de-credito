@@ -23,10 +23,11 @@ public class EmissaoCartoesSubscriber {
     @RabbitListener(queues = "${mq.queues.emissao-cartoes}")
     public void receberSlocitacaoEmissao(@Payload String payload) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            DadosSolicitacaoEmissaoCartao dados = mapper.readValue(payload, DadosSolicitacaoEmissaoCartao.class);
+            var mapper = new ObjectMapper();
 
-            Cartao cartao = cartaoRepository.getById(dados.getIdCartao());
+            DadosSolicitacaoEmissaoCartao dados = mapper.readValue(payload, DadosSolicitacaoEmissaoCartao.class);
+            Cartao cartao = cartaoRepository.findById(dados.getIdCartao()).orElseThrow();
+
             ClienteCartao clienteCartao = new ClienteCartao();
             clienteCartao.setCartao(cartao);
             clienteCartao.setCpf(dados.getCpf());
