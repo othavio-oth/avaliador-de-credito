@@ -6,5 +6,9 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17
 WORKDIR /app
 COPY --from=build ./app/target/*.jar ./app.jar
+
+ARG EUREKA_SERVER=eureka-cursoms
+ARG RABBITMQ_SERVER=rabbitmq-cursoms
+
 ENTRYPOINT java -jar app.jar
 

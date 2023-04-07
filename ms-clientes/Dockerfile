@@ -6,5 +6,8 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17
 WORKDIR /app
 COPY --from=build ./app/target/*.jar ./app.jar
+
+ARG EUREKA_SERVER=localhost
+
 ENTRYPOINT java -jar app.jar
 
